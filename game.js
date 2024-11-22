@@ -1,8 +1,21 @@
+
 function setup() {
-  createCanvas(520, 300);
+  createCanvas(500, 300);
+  rectMode(CENTER);
 }
 
 function draw() {
-  background(255, 255, 255);
+  backG();
+
 }
 
+function backG(){
+  background(100);
+  fill (200);
+  noStroke();
+  rect(250,150,300,300);
+}
+
+ class Fireman{
+
+ }
