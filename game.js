@@ -1,3 +1,4 @@
+let paddelX = 250;
 let state = "game";
 
 function setup() {
@@ -34,14 +35,31 @@ class FireMan {
   }
 }
 
-let fireMan = new FireMan(250, 150);
+class Paddel {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 
+  draw() {
+    rect(this.x, this.y, 55, 10);
+  }
+
+  update() {}
+}
+
+//new objects
+let paddel = new Paddel(paddelX, 286);
+let fireMan = new FireMan(250, 150);
 function draw() {
   if (state === "game") {
     backG();
     //moving(not yet) dot
     fireMan.draw();
     fireMan.update();
+
+    paddel.draw();
+    paddel.update();
   }
 }
 
@@ -50,4 +68,10 @@ function backG() {
   fill(200);
   noStroke();
   rect(250, 150, 300, 300);
+}
+
+function keyPressed() {
+  if (keyCode === LEFT_ARROW) {
+    paddelX *= -1;
+  }
 }
