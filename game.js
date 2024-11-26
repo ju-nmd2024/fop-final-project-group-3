@@ -1,5 +1,7 @@
 let paddelX = 250;
 let state = "game";
+let direction = "null";
+let paddelSpeedX = 0;
 
 function setup() {
   createCanvas(500, 300);
@@ -51,6 +53,7 @@ class Paddel {
 //new objects
 let paddel = new Paddel(paddelX, 286);
 let fireMan = new FireMan(250, 150);
+//
 function draw() {
   if (state === "game") {
     backG();
@@ -60,6 +63,20 @@ function draw() {
 
     paddel.draw();
     paddel.update();
+
+    paddelX = paddelX - paddelSpeedX;
+
+    if (direction=== "left") {
+      paddelSpeedX = -1;
+    } else{
+      direction = "null";
+    }
+    if (direction === "right") {
+      
+    } else{
+      direction = "null";
+    }
+
   }
 }
 
@@ -71,7 +88,12 @@ function backG() {
 }
 
 function keyPressed() {
-  if (keyCode === LEFT_ARROW) {
-    paddelX *= -1;
+  if (state === "game") {
+    if (keyCode === LEFT_ARROW) {
+      direction = "left";
+    } 
+    if (keyCode === RIGHT_ARROW) {
+      direction = "right";
+    } 
   }
 }
