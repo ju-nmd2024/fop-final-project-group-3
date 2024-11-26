@@ -1,7 +1,4 @@
-//let position = {
-//x:250,
-//y:150
-//};
+let state = "game";
 
 function setup() {
   createCanvas(500, 300);
@@ -11,6 +8,8 @@ class FireMan {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.speedX = 3;
+    this.speedY = 2;
   }
 
   draw() {
@@ -19,21 +18,31 @@ class FireMan {
   }
 
   update() {
-    this.y += -1;
+    this.y += this.speedY;
+    this.x += this.speedX;
+
+    /* line 25-30 with guidance from MindForCode, "How to create a bouncing ball in p5.js" 
+    https://www.youtube.com/watch?v=eHZXvR6NDLo 
+    */
+    if (this.x > 392 || this.x < 108) {
+      this.speedX *= -1;
+    }
+    // may be removed, death, beagining half
+    if (this.y > 292 || this.y < 8) {
+      this.speedY *= -1;
+    }
   }
 }
-
-
 
 let fireMan = new FireMan(250, 150);
 
 function draw() {
-  backG();
-  //moving(not yet) dot
-  fireMan.draw();
-  fireMan.update();
-  //fill (0);
-  //ellipse(position.x,position.y,20);
+  if (state === "game") {
+    backG();
+    //moving(not yet) dot
+    fireMan.draw();
+    fireMan.update();
+  }
 }
 
 function backG() {
