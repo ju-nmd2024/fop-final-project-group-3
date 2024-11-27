@@ -45,8 +45,8 @@ class FireMan {
       this.x >= paddel.x - 15 / 2 &&
       this.x <= paddel.x + paddel.width / 2
     ) {
-      // this.speedX += 0;
-      // this.speedY += +0;
+      this.speedX += 0;
+      this.speedY += +0;
     }
   }
 }
