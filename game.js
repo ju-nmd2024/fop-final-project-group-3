@@ -1,11 +1,12 @@
 let paddelX = 250;
 let state = "game";
 let direction = "null";
-let paddelSpeedX = 0;
 
 function setup() {
   createCanvas(500, 300);
   rectMode(CENTER);
+  // to keep pixlynes
+  noSmooth();
 }
 class FireMan {
   constructor(x, y) {
@@ -27,12 +28,17 @@ class FireMan {
     /* line 25-30 with guidance from MindForCode, "How to create a bouncing ball in p5.js" 
     https://www.youtube.com/watch?v=eHZXvR6NDLo 
     */
+    //collision with wals
     if (this.x > 392 || this.x < 108) {
       this.speedX *= -1;
     }
     // may be removed, death, beagining half
     if (this.y > 292 || this.y < 8) {
       this.speedY *= -1;
+    }
+
+    //collision with paddel
+    if (this.x >= paddelX) {
     }
   }
 }
@@ -44,10 +50,36 @@ class Paddel {
   }
 
   draw() {
+    // drawn paddel for now
     rect(this.x, this.y, 55, 10);
   }
 
-  update() {}
+  update() {
+    //Collision1 (bounsing back)
+    if (this.x > 370) {
+      this.moveEdgeL();
+    }
+    if (this.x < 130) {
+      this.moveEdgeR();
+    }
+  }
+  // movement paddel
+  moveRight() {
+    this.x += 5;
+  }
+  moveLeft() {
+    this.x += -5;
+  }
+  moveNull() {
+    this.x += 0;
+  }
+  // collision(2) variable (bounsing back)
+  moveEdgeL() {
+    this.x += -6;
+  }
+  moveEdgeR() {
+    this.x += 6;
+  }
 }
 
 //new objects
@@ -64,19 +96,13 @@ function draw() {
     paddel.draw();
     paddel.update();
 
-    paddelX = paddelX - paddelSpeedX;
-
-    if (direction=== "left") {
-      paddelSpeedX = -1;
-    } else{
-      direction = "null";
+    if (keyIsDown(LEFT_ARROW)) {
+      paddel.moveLeft();
+    } else if (keyIsDown(RIGHT_ARROW)) {
+      paddel.moveRight();
+    } else {
+      paddel.moveNull();
     }
-    if (direction === "right") {
-      
-    } else{
-      direction = "null";
-    }
-
   }
 }
 
@@ -85,15 +111,4 @@ function backG() {
   fill(200);
   noStroke();
   rect(250, 150, 300, 300);
-}
-
-function keyPressed() {
-  if (state === "game") {
-    if (keyCode === LEFT_ARROW) {
-      direction = "left";
-    } 
-    if (keyCode === RIGHT_ARROW) {
-      direction = "right";
-    } 
-  }
 }
