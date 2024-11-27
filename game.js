@@ -4,7 +4,6 @@ let direction = "null";
 
 function setup() {
   createCanvas(500, 300);
-  rectMode(CENTER);
   // to keep pixlynes
   noSmooth();
 }
@@ -14,6 +13,7 @@ class FireMan {
     this.y = y;
     this.speedX = 3;
     this.speedY = 2;
+    this.paddel = new Paddel(paddelX, 286);
   }
 
   draw() {
@@ -38,20 +38,30 @@ class FireMan {
     }
 
     //collision with paddel
-    if (this.x >= paddelX) {
+    //var audio = new Audio('audio_file.mp3'); audio.play();
+    if (
+      this.x + 7 >= paddel.y - paddel.height / 2 &&
+      this.y - 7 <= paddel.y + paddel.height / 2 &&
+      this.x >= paddel.x - 15 / 2 &&
+      this.x <= paddel.x + paddel.width / 2
+    ) {
+      // this.speedX += 0;
+      // this.speedY += +0;
     }
   }
 }
 
 class Paddel {
-  constructor(x, y) {
+  constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
+    this.width = width;
+    this.height = height;
   }
 
   draw() {
     // drawn paddel for now
-    rect(this.x, this.y, 55, 10);
+    rect(this.x, this.y, this.width, this.height);
   }
 
   update() {
@@ -83,13 +93,14 @@ class Paddel {
 }
 
 //new objects
-let paddel = new Paddel(paddelX, 286);
+let paddel = new Paddel(paddelX, 286, 60, 10);
 let fireMan = new FireMan(250, 150);
 //
 function draw() {
+  rectMode(CENTER);
   if (state === "game") {
     backG();
-    //moving(not yet) dot
+    //movingdot
     fireMan.draw();
     fireMan.update();
 
