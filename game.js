@@ -8,17 +8,19 @@ function setup() {
   noSmooth();
 }
 class FireMan {
-  constructor(x, y) {
+  constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
+    this.width = width;
+    this.height = height;
     this.speedX = 3;
-    this.speedY = 2;
+    this.speedY = 3;
     this.paddel = new Paddel(paddelX, 286);
   }
 
   draw() {
     fill(0);
-    ellipse(this.x, this.y, 15);
+    ellipse(this.x, this.y, this.width, this.height);
   }
 
   update() {
@@ -36,18 +38,28 @@ class FireMan {
     if (this.y > 292 || this.y < 8) {
       this.speedY *= -1;
     }
-
-    //collision with paddel
-    //var audio = new Audio('audio_file.mp3'); audio.play();
-    if (
-      this.x + 7 >= paddel.y - paddel.height / 2 &&
-      this.y - 7 <= paddel.y + paddel.height / 2 &&
-      this.x >= paddel.x - 15 / 2 &&
-      this.x <= paddel.x + paddel.width / 2
-    ) {
-      this.speedX += 0;
-      this.speedY += +0;
+    // Reverse Y direction when hitting the bottom
+    if (this.y > height - this.height / 2) {
+      this.speedY *= -1;
     }
+  }
+  //collision with paddel
+  //var audio = new Audio('audio_file.mp3'); audio.play();
+  hitTest(paddle) {
+    if (
+      this.y + this.height / 2 >= paddle.y - paddle.height / 2 &&
+      this.y - this.height / 2 <= paddle.y + paddle.height / 2
+    ) {
+      if (
+        this.x >= paddle.x - paddle.width / 2 &&
+        this.x <= paddle.x + paddle.width / 2
+      ) {
+        // Collision detected
+        return true;
+      }
+    }
+    // No collision
+    return false;
   }
 }
 
@@ -94,7 +106,7 @@ class Paddel {
 
 //new objects
 let paddel = new Paddel(paddelX, 286, 60, 10);
-let fireMan = new FireMan(250, 150);
+let fireMan = new FireMan(250, 150, 15, 15);
 //
 function draw() {
   rectMode(CENTER);
@@ -106,6 +118,12 @@ function draw() {
 
     paddel.draw();
     paddel.update();
+
+    if (fireMan.hitTest(paddel)) {
+      // Reverse vertical speed, to make FireMan *boing (sound effect)
+      fireMan.speedY *= -1;
+      fireMan.y = paddel.y - paddel.height / 2 - fireMan.height / 2;
+    }
 
     if (keyIsDown(LEFT_ARROW)) {
       paddel.moveLeft();
