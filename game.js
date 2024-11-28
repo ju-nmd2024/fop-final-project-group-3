@@ -160,8 +160,11 @@ class Button {
     this.width = width;
     this.height = height;
     this.text = text;
+    //fill color
     this.color = fColor;
+    // text color
     this.color2 = tColor;
+    //line color
     this.color3 = lColor;
   }
   draw() {
@@ -239,7 +242,6 @@ blocks = [
   block14,
   block15,
 ];
-
 
 //
 function draw() {
