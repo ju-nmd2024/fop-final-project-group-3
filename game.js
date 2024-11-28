@@ -2,11 +2,19 @@ let paddelX = 250;
 let state = "game";
 let direction = "null";
 
+// let gif_loadImg, gif_createImg;
+// function preload() {
+//   gif_load = loadImage("fire man gift.gif");
+
+//   gif_createImg = createImg("fire man gift.gif");
+// }
+
 function setup() {
   createCanvas(500, 300);
   // to keep pixlynes
   noSmooth();
 }
+
 class FireMan {
   constructor(x, y, width, height) {
     this.x = x;
@@ -20,6 +28,7 @@ class FireMan {
 
   draw() {
     fill(0);
+    //Image(gif_loadImg, this.x, this.y, this.width, this.height);
     ellipse(this.x, this.y, this.width, this.height);
   }
 
@@ -54,11 +63,11 @@ class FireMan {
         this.x >= paddle.x - paddle.width / 2 &&
         this.x <= paddle.x + paddle.width / 2
       ) {
-        // Collision detected
+        // Collision found
         return true;
       }
     }
-    // No collision
+    // No collision found
     return false;
   }
 }
@@ -109,11 +118,38 @@ class Block {
     this.y = y;
     this.height = height;
     this.width = width;
+    // this.fireman = new FireMan(
+    //   FireMan.x,
+    //   FireMan.y,
+    //   FireMan.width,
+    //   FireMan.height
+    // );
+    // this.fireman.x = FireMan.x;
+    // this.fireman.y = FireMan.y;
+    // this.fireman.width = FireMan.width;
+    // this.fireman.height = FireMan.height;
   }
   draw() {
     fill(0);
     rect(this.x, this.y, this.height, this.width);
   }
+
+  // hitTest(fireman) {
+  //   if (
+  //     this.y + this.height / 2 >= fireman.y - fireman.height / 2 &&
+  //     this.y - this.height / 2 <= fireman.y + fireman.height / 2
+  //   ) {
+  //     if (
+  //       this.x >= fireman.x - fireman.width / 2 &&
+  //       this.x <= fireman.x + fireman.width / 2
+  //     ) {
+  //       //collision found
+  //       return true;
+  //     }
+  //   }
+  //   //no collision found
+  //   return false;
+  // }
 }
 
 //new objects
@@ -175,10 +211,17 @@ function draw() {
       block.draw();
     }
 
+    //collision detection paddel
     if (fireMan.hitTest(paddel)) {
       // Reverse vertical speed, to make FireMan *boing (sound effect)
       fireMan.speedY *= -1;
       fireMan.y = paddel.y - paddel.height / 2 - fireMan.height / 2;
+    }
+
+    //collision detection blocks
+    if (block.hitTest(fireman)) {
+      // keep track of points
+      //
     }
 
     if (keyIsDown(LEFT_ARROW)) {
