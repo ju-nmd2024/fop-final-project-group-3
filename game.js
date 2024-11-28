@@ -103,10 +103,61 @@ class Paddel {
     this.x += 6;
   }
 }
+class Block {
+  constructor(x, y, height, width) {
+    this.x = x;
+    this.y = y;
+    this.height = height;
+    this.width = width;
+  }
+  draw() {
+    fill(0);
+    rect(this.x, this.y, this.height, this.width);
+  }
+}
 
 //new objects
+//rad1
+let block1 = new Block(130, 30, 50, 10);
+let block2 = new Block(190, 30, 50, 10);
+let block3 = new Block(250, 30, 50, 10);
+let block4 = new Block(310, 30, 50, 10);
+let block5 = new Block(370, 30, 50, 10);
+//rad2
+let block6 = new Block(130, 55, 50, 10);
+let block7 = new Block(190, 55, 50, 10);
+let block8 = new Block(250, 55, 50, 10);
+let block9 = new Block(310, 55, 50, 10);
+let block10 = new Block(370, 55, 50, 10);
+//rad3
+let block11 = new Block(130, 80, 50, 10);
+let block12 = new Block(190, 80, 50, 10);
+let block13 = new Block(250, 80, 50, 10);
+let block14 = new Block(310, 80, 50, 10);
+let block15 = new Block(370, 80, 50, 10);
+
 let paddel = new Paddel(paddelX, 286, 60, 10);
 let fireMan = new FireMan(250, 150, 15, 15);
+
+//block Arrey
+blocks = [
+  block1,
+  block2,
+  block3,
+  block4,
+  block5,
+  block6,
+  block7,
+  block8,
+  block9,
+  block10,
+  block11,
+  block12,
+  block13,
+  block14,
+  block15,
+];
+
 //
 function draw() {
   rectMode(CENTER);
@@ -115,9 +166,14 @@ function draw() {
     //movingdot
     fireMan.draw();
     fireMan.update();
-
+    //player
     paddel.draw();
     paddel.update();
+
+    //draw blocks
+    for (let block of blocks) {
+      block.draw();
+    }
 
     if (fireMan.hitTest(paddel)) {
       // Reverse vertical speed, to make FireMan *boing (sound effect)
