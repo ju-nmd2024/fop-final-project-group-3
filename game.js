@@ -1,5 +1,5 @@
 let paddelX = 250;
-let state = "game";
+let state = "start";
 let direction = "null";
 
 // let gif_loadImg, gif_createImg;
@@ -112,6 +112,7 @@ class Paddel {
     this.x += 6;
   }
 }
+
 class Block {
   constructor(x, y, height, width) {
     this.x = x;
@@ -152,7 +153,52 @@ class Block {
   // }
 }
 
-//new objects
+class Button {
+  constructor(x, y, width, height, text, fColor, tColor, lColor) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.text = text;
+    this.color = fColor;
+    this.color2 = tColor;
+    this.color3 = lColor;
+  }
+  draw() {
+    push();
+    translate(this.x, this.y);
+    stroke(this.color3);
+    strokeWeight(7);
+    fill(this.color);
+    rect(0, 0, this.width, this.height, 10);
+    noStroke();
+    fill(this.color2);
+    textSize(this.height / 2);
+    textAlign(CENTER);
+    text(this.text, 0, this.height / 4, this.width);
+    pop();
+  }
+  hitTest(x, y) {
+    return (
+      x > this.x &&
+      x < this.x + this.width &&
+      y > this.y &&
+      y < this.y + this.height
+    );
+  }
+}
+// objects in game start
+let startButton = new Button(
+  130,
+  150,
+  150,
+  50,
+  "Start",
+  "#873200",
+  "#ffffff",
+  "#000000"
+);
+//new objects in State "game"
 //rad1
 let block1 = new Block(130, 30, 50, 10);
 let block2 = new Block(190, 30, 50, 10);
@@ -173,7 +219,7 @@ let block14 = new Block(310, 80, 50, 10);
 let block15 = new Block(370, 80, 50, 10);
 
 let paddel = new Paddel(paddelX, 286, 60, 10);
-let fireMan = new FireMan(250, 150, 15, 15);
+let fireMan = new FireMan(250, 120, 15, 15);
 
 //block Arrey
 blocks = [
@@ -194,10 +240,22 @@ blocks = [
   block15,
 ];
 
+
 //
 function draw() {
-  rectMode(CENTER);
+  if (state === "start") {
+    background(80, 181, 90);
+    startButton.draw();
+
+    if (mouseIsPressed) {
+      if (startButton.hitTest(mouseX, mouseY)) {
+        //what hapens when the button is pressed
+        state = "game";
+      }
+    }
+  }
   if (state === "game") {
+    rectMode(CENTER);
     backG();
     //movingdot
     fireMan.draw();
@@ -219,10 +277,11 @@ function draw() {
     }
 
     //collision detection blocks
-    if (block.hitTest(fireman)) {
-      // keep track of points
-      //
-    }
+    // if (block.hitTest(fireman)) {
+    //   // keep track of points
+    //   fireMan.speedY *= -1;
+    //   fireMan.y = block.y - block.height / 2 - fireMan.height / 2;
+    // }
 
     if (keyIsDown(LEFT_ARROW)) {
       paddel.moveLeft();
