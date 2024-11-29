@@ -1,4 +1,6 @@
 let paddelX = 250;
+let fireManY = 100;
+let fireManX = 250;
 let state = "start";
 let direction = "null";
 
@@ -13,6 +15,20 @@ function setup() {
   createCanvas(500, 300);
   // to keep pixlynes
   noSmooth();
+}
+
+class Life {
+  constructor(x, y, width, height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+
+  draw() {
+    fill(255);
+    rect(this.x, this.y, this.width, this.height);
+  }
 }
 
 class FireMan {
@@ -47,10 +63,10 @@ class FireMan {
     if (this.y > 292 || this.y < 8) {
       this.speedY *= -1;
     }
-    // Reverse Y direction when hitting the bottom
-    if (this.y > height - this.height / 2) {
-      this.speedY *= -1;
-    }
+    // // Reverse Y direction when hitting the bottom
+    // if (this.y > height - this.height / 2) {
+    //   this.speedY *= -1;
+    // }
   }
   //collision with paddel
   //var audio = new Audio('audio_file.mp3'); audio.play();
@@ -96,10 +112,10 @@ class Paddel {
   }
   // movement paddel
   moveRight() {
-    this.x += 5;
+    this.x += 6;
   }
   moveLeft() {
-    this.x += -5;
+    this.x += -6;
   }
   moveNull() {
     this.x += 0;
@@ -222,7 +238,11 @@ let block14 = new Block(310, 80, 50, 10);
 let block15 = new Block(370, 80, 50, 10);
 
 let paddel = new Paddel(paddelX, 286, 60, 10);
-let fireMan = new FireMan(250, 120, 15, 15);
+let fireMan = new FireMan(fireManX, fireManY, 15, 15);
+
+let life0 = new Life(20, 20, 20, 20);
+let life1 = new Life(50, 20, 20, 20);
+let life2 = new Life(80, 20, 20, 20);
 
 //block Arrey
 blocks = [
@@ -242,6 +262,9 @@ blocks = [
   block14,
   block15,
 ];
+
+//Lives Arrey
+lives = [life0, life1, life2];
 
 //
 function draw() {
@@ -266,7 +289,19 @@ function draw() {
     paddel.draw();
     paddel.update();
 
-    //draw blocks
+    //Lives loop
+    for (let life of lives) {
+      life.draw();
+    }
+
+    if (fireMan.y >= 290) {
+      // let fireManY = 100;
+      // let fireManX = 250;
+      // state = "game";
+      lives.pop();
+    }
+
+    //draw blocks loop
     for (let block of blocks) {
       block.draw();
     }
