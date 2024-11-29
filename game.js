@@ -37,7 +37,7 @@ class FireMan {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speedX = 3;
+    this.speedX = 4;
     this.speedY = 3;
     this.paddel = new Paddel(paddelX, 286);
   }
@@ -295,9 +295,7 @@ function draw() {
     }
 
     if (fireMan.y >= 290) {
-      // let fireManY = 100;
-      // let fireManX = 250;
-      // state = "game";
+      
       lives.pop();
     }
 
