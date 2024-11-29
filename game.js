@@ -1,6 +1,8 @@
 let paddelX = 250;
 let fireManY = 100;
 let fireManX = 250;
+let brickWidth = 50;
+let brickHeight = 20;
 let state = "start";
 let direction = "null";
 
@@ -15,6 +17,24 @@ function setup() {
   createCanvas(500, 300);
   // to keep pixlynes
   noSmooth();
+}
+
+function drawBlocks() {
+  // Clear the array before filling it with new blocks
+  blocks = [];
+
+  // Define number of rows and columns for the blocks
+  let numRows = 3;
+  let numCols = 5;
+
+  // Create blocks using nested for loops
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
+      let x = 135 + col * (brickWidth + 7); // Horizontal position
+      let y = 25 + row * (brickHeight + 3); // Vertical position
+      blocks.push(new Block(x, y, brickWidth, brickHeight));
+    }
+  }
 }
 
 class Life {
@@ -37,15 +57,31 @@ class FireMan {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.speedX = 3;
-    this.speedY = 3;
+    this.speedX = 2;
+    this.speedY = 2;
     this.paddel = new Paddel(paddelX, 286);
+    this.lifeLost = false;
   }
 
   draw() {
     fill(0);
     //Image(gif_loadImg, this.x, this.y, this.width, this.height);
     ellipse(this.x, this.y, this.width, this.height);
+  }
+
+  hearts() {
+    if (fireMan.y >= 290 && !this.lifeLost) {
+      lives.pop();
+      this.lifeLost = true;
+      this.x = 250;
+      this.y = 100;
+    }
+  }
+
+  resetHearts() {
+    if (this.y < 290 && this.lifeLost) {
+      this.lifeLost = false;
+    }
   }
 
   update() {
@@ -60,9 +96,10 @@ class FireMan {
       this.speedX *= -1;
     }
     // may be removed, death, beagining half
-    if (this.y > 292 || this.y < 8) {
+    if (this.y < 8) {
       this.speedY *= -1;
     }
+
     // // Reverse Y direction when hitting the bottom
     // if (this.y > height - this.height / 2) {
     //   this.speedY *= -1;
@@ -135,12 +172,12 @@ class Block {
     this.y = y;
     this.height = height;
     this.width = width;
-    // this.fireman = new FireMan(
-    //   FireMan.x,
-    //   FireMan.y,
-    //   FireMan.width,
-    //   FireMan.height
-    // );
+    this.fireman = new FireMan(
+      FireMan.x,
+      FireMan.y,
+      FireMan.width,
+      FireMan.height
+    );
     // this.fireman.x = FireMan.x;
     // this.fireman.y = FireMan.y;
     // this.fireman.width = FireMan.width;
@@ -150,23 +187,6 @@ class Block {
     fill(0);
     rect(this.x, this.y, this.height, this.width);
   }
-
-  // hitTest(fireman) {
-  //   if (
-  //     this.y + this.height / 2 >= fireman.y - fireman.height / 2 &&
-  //     this.y - this.height / 2 <= fireman.y + fireman.height / 2
-  //   ) {
-  //     if (
-  //       this.x >= fireman.x - fireman.width / 2 &&
-  //       this.x <= fireman.x + fireman.width / 2
-  //     ) {
-  //       //collision found
-  //       return true;
-  //     }
-  //   }
-  //   //no collision found
-  //   return false;
-  // }
 }
 
 class Button {
@@ -218,25 +238,6 @@ let startButton = new Button(
   "#000000"
 );
 //new objects in State "game"
-//rad1
-let block1 = new Block(130, 30, 50, 10);
-let block2 = new Block(190, 30, 50, 10);
-let block3 = new Block(250, 30, 50, 10);
-let block4 = new Block(310, 30, 50, 10);
-let block5 = new Block(370, 30, 50, 10);
-//rad2
-let block6 = new Block(130, 55, 50, 10);
-let block7 = new Block(190, 55, 50, 10);
-let block8 = new Block(250, 55, 50, 10);
-let block9 = new Block(310, 55, 50, 10);
-let block10 = new Block(370, 55, 50, 10);
-//rad3
-let block11 = new Block(130, 80, 50, 10);
-let block12 = new Block(190, 80, 50, 10);
-let block13 = new Block(250, 80, 50, 10);
-let block14 = new Block(310, 80, 50, 10);
-let block15 = new Block(370, 80, 50, 10);
-
 let paddel = new Paddel(paddelX, 286, 60, 10);
 let fireMan = new FireMan(fireManX, fireManY, 15, 15);
 
@@ -244,25 +245,8 @@ let life0 = new Life(20, 20, 20, 20);
 let life1 = new Life(50, 20, 20, 20);
 let life2 = new Life(80, 20, 20, 20);
 
-//block Arrey
-blocks = [
-  block1,
-  block2,
-  block3,
-  block4,
-  block5,
-  block6,
-  block7,
-  block8,
-  block9,
-  block10,
-  block11,
-  block12,
-  block13,
-  block14,
-  block15,
-];
-
+// Block Arrey
+let blocks = [];
 //Lives Arrey
 lives = [life0, life1, life2];
 
@@ -276,15 +260,24 @@ function draw() {
       if (startButton.hitTest(mouseX, mouseY)) {
         //what hapens when the button is pressed
         state = "game";
+        drawBlocks();
       }
     }
   }
   if (state === "game") {
     rectMode(CENTER);
     backG();
-    //movingdot
+
+    //moving fireman
     fireMan.draw();
     fireMan.update();
+    fireMan.hearts();
+    fireMan.resetHearts();
+    console.log(lives.length);
+    //  if (lives.lenght = 0){
+    //   state = "Over";
+    //  }
+
     //player
     paddel.draw();
     paddel.update();
@@ -292,13 +285,6 @@ function draw() {
     //Lives loop
     for (let life of lives) {
       life.draw();
-    }
-
-    if (fireMan.y >= 290) {
-      // let fireManY = 100;
-      // let fireManX = 250;
-      // state = "game";
-      lives.pop();
     }
 
     //draw blocks loop
@@ -313,13 +299,6 @@ function draw() {
       fireMan.y = paddel.y - paddel.height / 2 - fireMan.height / 2;
     }
 
-    //collision detection blocks
-    // if (block.hitTest(fireman)) {
-    //   // keep track of points
-    //   fireMan.speedY *= -1;
-    //   fireMan.y = block.y - block.height / 2 - fireMan.height / 2;
-    // }
-
     if (keyIsDown(LEFT_ARROW)) {
       paddel.moveLeft();
     } else if (keyIsDown(RIGHT_ARROW)) {
@@ -327,6 +306,9 @@ function draw() {
     } else {
       paddel.moveNull();
     }
+  }
+  if (state === "Over") {
+    background(0);
   }
 }
 
