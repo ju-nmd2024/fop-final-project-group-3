@@ -277,90 +277,81 @@ let life2 = new Life(80, 20, 20, 20);
 let blocks = [];
 //Lives Arrey
 lives = [life0, life1, life2];
-
-//
 function draw() {
-  if (state === "start") {
-    background(255);
-    startButton.draw();
-  }
-  if (state === "game") {
-    if (!blocksInitialized) {
-      drawBlocks();
-      blocksInitialized = true;
+    if (state === "start") {
+      background(255);
+      startButton.draw();
     }
-    rectMode(CENTER);
-    backG();
-    //moving fireman
-    fireMan.draw();
-    fireMan.update();
-    fireMan.hearts();
-    fireMan.resetHearts();
-    console.log(lives.length);
-
-    if (lives.length === 0) {
-      state = "Over";
-    }
-
-    //player
-    paddel.draw();
-    paddel.update();
-
-    //Lives loop
-    for (let life of lives) {
-      life.draw();
-    }
-
-    //draw blocks loop
-    for (let block of blocks) {
-      block.draw();
-      //collision for blocks
-      if (!block.hit && block.hitTest(fireMan)) {
+    if (state === "game") {
+      if (!blocksInitialized) {
+        drawBlocks();
+        blocksInitialized = true;
+      }
+      rectMode(CENTER);
+      backG();
+      //moving fireman
+      fireMan.draw();
+      fireMan.update();
+      fireMan.hearts();
+      fireMan.resetHearts();
+      console.log(lives.length);
+  
+      if (lives.length === 0) {
+        state = "Over";
+      }
+  
+      //player
+      paddel.draw();
+      paddel.update();
+  
+      //Lives loop
+      for (let life of lives) {
+        life.draw();
+      }
+  
+      //draw blocks loop
+      for (let block of blocks) {
+        block.draw();
+        //collision for blocks
+        if (!block.hit && block.hitTest(fireMan)) {
+          fireMan.speedY *= -1;
+          block.hit = true;
+        }
+      }
+  
+      //collision detection paddel
+      if (fireMan.hitTest(paddel)) {
+        // Reverse vertical speed, to make FireMan *boing (sound effect)
         fireMan.speedY *= -1;
-        block.hit = true;
+      }
+  
+      if (keyIsDown(LEFT_ARROW)) {
+        paddel.moveLeft();
+      } else if (keyIsDown(RIGHT_ARROW)) {
+        paddel.moveRight();
+      } else {
+        paddel.moveNull();
       }
     }
-
-    //collision detection paddel
-    if (fireMan.hitTest(paddel)) {
-      // Reverse vertical speed, to make FireMan *boing (sound effect)
-      fireMan.speedY *= -1;
-    }
-
-    if (keyIsDown(LEFT_ARROW)) {
-      paddel.moveLeft();
-    } else if (keyIsDown(RIGHT_ARROW)) {
-      paddel.moveRight();
-    } else {
-      paddel.moveNull();
-    }
-  }
-  if (state === "Over") {
-    background(0);
-    overButton.draw();
-    if (mouseIsPressed && overButton.hitTest(mouseX, mouseY)) {
-      //what hapens when the button is pressed
-      state = "start";
+    if (state === "Over") {
+      background(0);
+      overButton.draw();
+      if (mouseIsPressed && overButton.hitTest(mouseX, mouseY)) {
+        // Reset the game when the "Over" button is pressed
+        state = "start";
+        blocksInitialized = false;
+        lives = [life0, life1, life2]; // Reset lives
+        fireMan.x = 250; // Reset fireman's position
+        fireMan.y = 130;
+        fireMan.speedX = 2;
+        fireMan.speedY = 2;
+        blocks = []; // Clear blocks
+      }
     }
   }
-}
-function mousePressed() {
-  if (state === "start" && startButton.hitTest(mouseX, mouseY)) {
-    state = "game";
-  } else if (state === "Over" && overButton.hitTest(mouseX, mouseY)) {
-    state = "start";
-    blocksInitialized = false;
-    lives = [life0, life1, life2];
-    fireMan.x = 250;
-    fireMan.y = 130;
-    fireMan.speedX = 2;
-    fireMan.speedY = 2;
+  
+  function mousePressed() {
+    if (state === "start" && startButton.hitTest(mouseX, mouseY)) {
+      state = "game"; // Start the game when the start button is clicked
+    }
   }
-}
-
-function backG() {
-  background(100);
-  fill(200);
-  noStroke();
-  rect(250, 150, 300, 300);
-}
