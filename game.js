@@ -9,12 +9,12 @@ let point = 0;
 
 let blocksInitialized = false;
 
-// let gif_loadImg, gif_createImg;
-// function preload() {
-//   gif_load = loadImage("fire man gift.gif");
-
-//   gif_createImg = createImg("fire man gift.gif");
-// }
+//most of the ways images and gifs are added,  https://editor.p5js.org/kjhollen/sketches/S1bVzeF8Z
+//https://editor.p5js.org/FAAH/sketches/8s1g0vilF
+function preload() {
+  gif_loadImg1 = loadImage("fire man gift.gif");
+  gif_createImg1 = createImg("fire man gift.gif", "fireman gif");
+}
 
 function setup() {
   createCanvas(500, 300);
@@ -61,8 +61,8 @@ class FireMan {
     this.width = width;
     this.height = height;
 
-    this.speedX = 2;
-    this.speedY = 2;
+    this.speedX = 1.2;
+    this.speedY = 1.2;
 
     this.paddel = new Paddel(paddelX, 286);
     this.lifeLost = false;
@@ -71,7 +71,13 @@ class FireMan {
   draw() {
     fill(0);
     //Image(gif_loadImg, this.x, this.y, this.width, this.height);
-    ellipse(this.x, this.y, this.width, this.height);
+    image(
+      gif_loadImg1,
+      this.x - this.width / 2,
+      this.y - this.height / 2,
+      this.width,
+      this.height
+    );
   }
 
   hearts() {
@@ -80,8 +86,8 @@ class FireMan {
       this.lifeLost = true;
       this.x = 250;
       this.y = 130;
-      this.speedX = 2;
-      this.speedY = 2;
+      this.speedX = 1.2;
+      this.speedY = 1.2;
     }
   }
 
@@ -112,12 +118,13 @@ class FireMan {
     //   this.speedY *= -1;
     // }
   }
+
   //collision with paddel
   //var audio = new Audio('audio_file.mp3'); audio.play();
   hitTest(paddle) {
     if (
-      this.y + this.height / 2 >= paddle.y - paddle.height / 2 &&
-      this.y - this.height / 2 <= paddle.y + paddle.height / 2
+      this.y + this.height / 4 >= paddle.y - paddle.height / 4 &&
+      this.y - this.height / 4 <= paddle.y + paddle.height / 4
     ) {
       if (
         this.x >= paddle.x - paddle.width / 2 &&
@@ -196,10 +203,10 @@ class Block {
   }
   hitTest(fireMan) {
     if (
-      fireMan.x + fireMan.width / 2 >= this.x &&
-      fireMan.x - fireMan.width / 2 <= this.x + this.width &&
-      fireMan.y + fireMan.height / 2 >= this.y &&
-      fireMan.y - fireMan.height / 2 <= this.y + this.height
+      fireMan.x >= this.x &&
+      fireMan.x <= this.x + this.width &&
+      fireMan.y >= this.y &&
+      fireMan.y <= this.y + this.height
     ) {
       return true;
     }
@@ -268,7 +275,7 @@ let overButton = new Button(
 
 //new objects in State "game"
 let paddel = new Paddel(paddelX, 286, 60, 10);
-let fireMan = new FireMan(fireManX, fireManY, 15, 15);
+let fireMan = new FireMan(fireManX, fireManY, 50, 50);
 
 let life0 = new Life(20, 20, 20, 20);
 let life1 = new Life(50, 20, 20, 20);
@@ -321,7 +328,7 @@ function draw() {
       block.draw();
       //collision for blocks
       if (!block.hit && block.hitTest(fireMan)) {
-        fireMan.speedY *= -1;
+        fireMan.speedY *= +1; ///det har något med denna att göra
         block.hit = true;
         point = point + 1;
         console.log(point);
@@ -343,7 +350,7 @@ function draw() {
     }
   }
   if (state === "Over") {
-    background(0);
+    background(255);
     overButton.draw();
     if (mouseIsPressed && overButton.hitTest(mouseX, mouseY)) {
       //what hapens when the button is pressed
