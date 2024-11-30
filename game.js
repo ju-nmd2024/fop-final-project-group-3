@@ -201,6 +201,7 @@ class Block {
       rect(this.x, this.y, this.height, this.width);
     }
   }
+
   hitTest(fireMan) {
     if (
       fireMan.x >= this.x &&
@@ -308,11 +309,13 @@ function draw() {
     fireMan.update();
     fireMan.hearts();
     fireMan.resetHearts();
+
     //console.log(lives.length);
 
     if (lives.length === 0) {
       state = "Over";
     }
+
 
     //player
     paddel.draw();
@@ -348,6 +351,18 @@ function draw() {
     } else {
       paddel.moveNull();
     }
+    if (lives.length === 0) {
+      state = "Over";
+    }
+    if (point === 15) {
+      state = "win";
+      winScreen();
+      overButton.draw();
+      if (mouseIsPressed && overButton.hitTest(mouseX, mouseY)) {
+        //what hapens when the button is pressed
+        state = "start";
+      }
+    }
   }
   if (state === "Over") {
     background(255);
@@ -377,4 +392,7 @@ function backG() {
   fill(200);
   noStroke();
   rect(250, 150, 300, 300);
+}
+function winScreen() {
+  background(0, 200, 0);
 }

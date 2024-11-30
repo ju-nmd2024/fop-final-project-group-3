@@ -11,7 +11,7 @@ function setup() {
 }
 
 function draw() {
-  
+  background(255);
   image(gif_loadImg1, 50, 50, 80, 80);
   gif_createImg1.position(50, 350);
   
