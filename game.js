@@ -5,6 +5,7 @@ let brickWidth = 50;
 let brickHeight = 20;
 let state = "start";
 let direction = "null";
+let point = 0;
 
 let blocksInitialized = false;
 
@@ -289,6 +290,10 @@ function draw() {
       drawBlocks();
       blocksInitialized = true;
     }
+
+    // fix points in right corner
+    stroke(255);
+    text("Points :" + point.toFixed(1), 350, 50, 100, 100);
     rectMode(CENTER);
     backG();
     //moving fireman
@@ -296,7 +301,7 @@ function draw() {
     fireMan.update();
     fireMan.hearts();
     fireMan.resetHearts();
-    console.log(lives.length);
+    //console.log(lives.length);
 
     if (lives.length === 0) {
       state = "Over";
@@ -318,6 +323,8 @@ function draw() {
       if (!block.hit && block.hitTest(fireMan)) {
         fireMan.speedY *= -1;
         block.hit = true;
+        point = point + 1;
+        console.log(point);
       }
     }
 
