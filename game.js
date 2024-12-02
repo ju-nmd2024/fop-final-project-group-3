@@ -11,12 +11,14 @@ let blocksInitialized = false;
 
 //most of the ways images and gifs are added,  https://editor.p5js.org/kjhollen/sketches/S1bVzeF8Z
 //https://editor.p5js.org/FAAH/sketches/8s1g0vilF
+var gif_loadImg1, gif_loadImg2, gif_fireLoad;
+
 function preload() {
+  // Load GIFs as images to draw on the canvas
   gif_loadImg1 = loadImage("fire man gift.gif");
-  gif_createImg1 = createImg("fire man gift.gif", "fireman gif");
   gif_loadImg2 = loadImage("talking guy.gif");
-  gif_createImg2 = createImg("talking guy.gif", "win.talking.gif");
   png_loadImg3 = loadImage("text rectangle.png");
+  gif_fireLoad = loadImage("Fire new-2.gif");
 }
 
 function setup() {
@@ -437,12 +439,18 @@ function backG() {
   fill(200);
   noStroke();
   rect(250, 150, 300, 300);
+  image(gif_fireLoad, -7, 200, 114, 114);
+  image(gif_fireLoad, 393, 200, 114, 114);
 }
 function winScreen() {
+  push();
+  rectMode(CENTER);
   background(100);
-  image(gif_loadImg2, 50, 20, 190, 190);
-  gif_createImg2.position(300, 100);
-  gif_createImg2.size(200, 200);
+  fill(200);
+  noStroke();
+  rect(250, 150, 300, 300);
+  image(gif_loadImg2, 70, 30, 180, 180);
 
-  image(png_loadImg3, 50, 40, 400, 370);
+  image(png_loadImg3, 98, 45, 300, 370);
+  pop();
 }
