@@ -14,6 +14,9 @@ let blocksInitialized = false;
 function preload() {
   gif_loadImg1 = loadImage("fire man gift.gif");
   gif_createImg1 = createImg("fire man gift.gif", "fireman gif");
+  gif_loadImg2 = loadImage("talking guy.gif");
+  gif_createImg2 = createImg("talking guy.gif", "win.talking.gif");
+  png_loadImg3 = loadImage("text rectangle.png");
 }
 
 function setup() {
@@ -61,8 +64,8 @@ class FireMan {
     this.width = width;
     this.height = height;
 
-    this.speedX = 1.2;
-    this.speedY = 1.2;
+    this.speedX = 1.8;
+    this.speedY = 1.8;
 
     this.paddel = new Paddel(paddelX, 286);
     this.lifeLost = false;
@@ -70,7 +73,7 @@ class FireMan {
 
   draw() {
     fill(0);
-    //Image(gif_loadImg, this.x, this.y, this.width, this.height);
+    //sourse stated above preload
     image(
       gif_loadImg1,
       this.x - this.width / 2,
@@ -86,8 +89,8 @@ class FireMan {
       this.lifeLost = true;
       this.x = 250;
       this.y = 130;
-      this.speedX = 1.2;
-      this.speedY = 1.2;
+      this.speedX = 1.8;
+      this.speedY = 1.8;
     }
   }
 
@@ -231,16 +234,16 @@ class Button {
   }
   draw() {
     push();
-    translate(this.x, this.y);
+
     stroke(this.color3);
     strokeWeight(7);
     fill(this.color);
-    rect(0, 0, this.width, this.height, 10);
+    rect(this.x, this.y, this.width, this.height, 10);
     noStroke();
     fill(this.color2);
-    textSize(min(this.height / 2, 20));
+    textSize(min(this.height / 1.2, 22));
     textAlign(CENTER, CENTER);
-    text(this.text, this.width / 2, this.height / 2);
+    text(this.text, this.x + this.width / 2, this.y + this.height / 2);
     pop();
   }
   hitTest(x, y) {
@@ -260,17 +263,27 @@ let startButton = new Button(
   50,
   "Start",
   "#873200",
-  "#ffffff",
+  "#000000",
   "#000000"
 );
 let overButton = new Button(
-  180,
-  200,
+  330,
+  50,
   150,
   50,
-  "heu",
+  "back to start",
   "#873200",
-  "#ffffff",
+  "#000000",
+  "#000000"
+);
+let winButton = new Button(
+  330,
+  50,
+  150,
+  50,
+  "back to start",
+  "#873200",
+  "#000000",
   "#000000"
 );
 
@@ -300,10 +313,12 @@ function draw() {
     }
 
     // fix points in right corner
+    push();
     stroke(255);
     text("Points :" + point.toFixed(1), 350, 50, 100, 100);
     rectMode(CENTER);
     backG();
+    pop();
     //moving fireman
     fireMan.draw();
     fireMan.update();
@@ -316,19 +331,27 @@ function draw() {
       state = "Over";
     }
 
-
     //player
+    push();
+    rectMode(CENTER);
     paddel.draw();
     paddel.update();
+    pop();
 
     //Lives loop
     for (let life of lives) {
+      push();
+      rectMode(CENTER);
       life.draw();
+      pop();
     }
 
     //draw blocks loop
     for (let block of blocks) {
+      push();
+      rectMode(CENTER);
       block.draw();
+      pop();
       //collision for blocks
       if (!block.hit && block.hitTest(fireMan)) {
         fireMan.speedY *= +1; ///det har något med denna att göra
@@ -372,11 +395,26 @@ function draw() {
       state = "start";
     }
   }
+  if (state === "win") {
+    winButton.draw();
+    if (mouseIsPressed && winButton.hitTest(mouseX, mouseY)) {
+      //what hapens when the button is pressed
+      state = "start";
+    }
+  }
 }
 function mousePressed() {
   if (state === "start" && startButton.hitTest(mouseX, mouseY)) {
     state = "game";
   } else if (state === "Over" && overButton.hitTest(mouseX, mouseY)) {
+    state = "start";
+    blocksInitialized = false;
+    lives = [life0, life1, life2];
+    fireMan.x = 250;
+    fireMan.y = 130;
+    fireMan.speedX = 2;
+    fireMan.speedY = 2;
+  } else if (state === "win" && winButton.hitTest(mouseX, mouseY)) {
     state = "start";
     blocksInitialized = false;
     lives = [life0, life1, life2];
@@ -394,5 +432,10 @@ function backG() {
   rect(250, 150, 300, 300);
 }
 function winScreen() {
-  background(0, 200, 0);
+  background(100);
+  image(gif_loadImg2, 50, 20, 190, 190);
+  gif_createImg2.position(300, 100);
+  gif_createImg2.size(200, 200);
+
+  image(png_loadImg3, 50, 40, 400, 370);
 }
