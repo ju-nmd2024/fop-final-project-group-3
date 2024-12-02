@@ -157,10 +157,10 @@ class Paddel {
 
   update() {
     //Collision1 (bounsing back)
-    if (this.x > 370) {
+    if (this.x > 365) {
       this.moveEdgeL();
     }
-    if (this.x < 130) {
+    if (this.x < 135) {
       this.moveEdgeR();
     }
   }
@@ -422,16 +422,18 @@ function mousePressed() {
     lives = [life0, life1, life2];
     fireMan.x = 250;
     fireMan.y = 130;
-    fireMan.speedX = 2;
-    fireMan.speedY = 2;
+    fireMan.speedX = 1.8;
+    fireMan.speedY = 1.8;
+    point = 0;
   } else if (state === "win" && winButton.hitTest(mouseX, mouseY)) {
     state = "start";
     blocksInitialized = false;
     lives = [life0, life1, life2];
     fireMan.x = 250;
     fireMan.y = 130;
-    fireMan.speedX = 2;
-    fireMan.speedY = 2;
+    fireMan.speedX = 1.8;
+    fireMan.speedY = 1.8;
+    point = 0;
   }
 }
 
