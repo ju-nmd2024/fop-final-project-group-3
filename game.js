@@ -190,13 +190,8 @@ class Block {
     this.height = height;
     this.width = width;
     this.hit = false;
-    // this.fireman = new FireMan(
-    //   FireMan.x,
-    //   FireMan.y,
-    //   FireMan.width,
-    //   FireMan.height
-    // );
   }
+
   draw() {
     // draws if it is not hit
     if (!this.hit) {
