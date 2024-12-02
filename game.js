@@ -311,14 +311,24 @@ function draw() {
       drawBlocks();
       blocksInitialized = true;
     }
-
-    // fix points in right corner
     push();
-    stroke(255);
-    text("Points :" + point.toFixed(1), 350, 50, 100, 100);
     rectMode(CENTER);
     backG();
     pop();
+
+    push();
+    fill(255);
+    textSize(15);
+    textAlign(RIGHT, TOP);
+    text("Points: " + point, width - 20, 15);
+    pop();
+
+    // fix points in right corner
+    // push();
+    // stroke(255);
+    // text("Points :" + point.toFixed(1), 350, 50, 100, 100);
+    // rectMode(CENTER);
+
     //moving fireman
     fireMan.draw();
     fireMan.update();
