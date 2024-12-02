@@ -359,7 +359,7 @@ function draw() {
       pop();
       //collision for blocks
       if (!block.hit && block.hitTest(fireMan)) {
-        fireMan.speedY *= +1; ///det har något med denna att göra
+        fireMan.speedY *= -1; ///det har något med denna att göra
         block.hit = true;
         point = point + 1;
         console.log(point);
