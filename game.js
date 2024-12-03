@@ -7,10 +7,12 @@ let state = "start";
 let direction = "null";
 let point = 0;
 
+
 let blocksInitialized = false;
 
 //most of the ways images and gifs are added,  https://editor.p5js.org/kjhollen/sketches/S1bVzeF8Z
 //https://editor.p5js.org/FAAH/sketches/8s1g0vilF
+// however we only got it to work when using only "loadImage" and down bellow "image(...)", and not using createimg.
 var gif_loadImg1, gif_loadImg2, gif_fireLoad, png_startBLoad, png_backBload;
 
 function preload() {
@@ -39,8 +41,8 @@ function drawBlocks() {
   // Create blocks using nested for-loops
   for (let row = 0; row < numRows; row++) {
     for (let col = 0; col < numCols; col++) {
-      let x = 135 + col * (brickWidth + 7); // Horizontal position
-      let y = 25 + row * (brickHeight + 3); // Vertical position
+      let x = 135 + col * (brickWidth + 7); // Horizontal 
+      let y = 25 + row * (brickHeight + 3); // Vertical 
       //fills the Arrey
       blocks.push(new Block(x, y, brickWidth, brickHeight));
     }
