@@ -22,7 +22,8 @@ var gif_loadImg1,
   gif_gameOver,
   gif_youWin,
   gif_flower,
-  png_start;
+  png_start,
+  png_studs;
 
 function preload() {
   // Load GIFs as images to draw on the canvas
@@ -38,6 +39,7 @@ function preload() {
   gif_youWin = loadImage("You win.gif");
   gif_flower = loadImage("Flower.gif");
   png_start = loadImage("main screen.png");
+  png_studs = loadImage("Trampoline.png");
 }
 
 function setup() {
@@ -172,7 +174,7 @@ class Paddel {
 
   draw() {
     // drawn paddel for now
-    rect(this.x, this.y, this.width, this.height);
+    image(png_studs, this.x, this.y, this.width, this.height);
   }
 
   update() {
@@ -184,6 +186,7 @@ class Paddel {
       this.moveEdgeR();
     }
   }
+
   // movement paddel
   moveRight() {
     this.x += 6;
@@ -299,7 +302,7 @@ let winButton = new Button(
 );
 
 //new objects in State "game"
-let paddel = new Paddel(paddelX, 286, 60, 10);
+let paddel = new Paddel(paddelX, 200, 90, 80);
 let fireMan = new FireMan(fireManX, fireManY, 50, 50);
 
 let life0 = new Life(2, 5, 35, 35);
