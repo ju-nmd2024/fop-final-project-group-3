@@ -20,7 +20,10 @@ var gif_loadImg1,
   gif_house,
   png_heart,
   gif_gameOver,
-  gif_youWin;
+  gif_youWin,
+  gif_flower,
+  png_start,
+  png_studs;
 
 function preload() {
   // Load GIFs as images to draw on the canvas
@@ -34,6 +37,9 @@ function preload() {
   png_heart = loadImage("Heart.png");
   gif_gameOver = loadImage("Game Over.gif");
   gif_youWin = loadImage("You win.gif");
+  gif_flower = loadImage("Flower.gif");
+  png_start = loadImage("main screen.png");
+  png_studs = loadImage("Trampoline.png");
 }
 
 function setup() {
@@ -168,7 +174,7 @@ class Paddel {
 
   draw() {
     // drawn paddel for now
-    rect(this.x, this.y, this.width, this.height);
+    image(png_studs, this.x, this.y, this.width, this.height);
   }
 
   update() {
@@ -180,6 +186,7 @@ class Paddel {
       this.moveEdgeR();
     }
   }
+
   // movement paddel
   moveRight() {
     this.x += 6;
@@ -272,7 +279,7 @@ class Button {
   }
 }
 // objects in game start
-let startButton = new Button(170, 200, 170, 70);
+let startButton = new Button(275, 200, 150, 60);
 let overButton = new Button(
   175,
   235,
@@ -295,7 +302,7 @@ let winButton = new Button(
 );
 
 //new objects in State "game"
-let paddel = new Paddel(paddelX, 286, 60, 10);
+let paddel = new Paddel(paddelX, 200, 90, 80);
 let fireMan = new FireMan(fireManX, fireManY, 50, 50);
 
 let life0 = new Life(2, 5, 35, 35);
@@ -310,7 +317,7 @@ lives = [life0, life1, life2];
 //
 function draw() {
   if (state === "start") {
-    background(255);
+    image(png_start, 0, 0, 500, 300);
     startButton.draw();
   }
   if (state === "game") {
@@ -416,6 +423,8 @@ function draw() {
     }
   }
 }
+
+
 function mousePressed() {
   if (state === "start" && startButton.hitTest(mouseX, mouseY)) {
     state = "game";
@@ -456,10 +465,18 @@ function winScreen() {
   fill(200);
   noStroke();
   rect(250, 150, 300, 300);
+  pop();
   image(gif_loadImg2, 75, 30, 180, 180);
   image(png_loadImg3, 98, 45, 300, 370);
-  pop();
   image(gif_youWin, 100, 5, 300, 70);
+  image(gif_flower, 0, 200, 100, 100);
+  image(gif_flower, 400, 200, 100, 100);
+
+  winButton.draw();
+  if (mouseIsPressed && winButton.hitTest(mouseX, mouseY)) {
+    //what hapens when the button is pressed
+    state = "start";
+  }
 }
 
 function gameOverScreen() {
@@ -469,8 +486,8 @@ function gameOverScreen() {
   fill("#bfbfbf");
   noStroke();
   rect(250, 150, 300, 300);
-  image(gif_house, 100, 40, 300, 300);
   pop();
+  image(gif_house, 100, 40, 300, 300);
   image(gif_fireLoad, -7, 200, 114, 114);
   image(gif_fireLoad, 393, 200, 114, 114);
   image(gif_gameOver, 100, 5, 300, 70);
