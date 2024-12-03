@@ -11,7 +11,7 @@ let blocksInitialized = false;
 
 //most of the ways images and gifs are added,  https://editor.p5js.org/kjhollen/sketches/S1bVzeF8Z
 //https://editor.p5js.org/FAAH/sketches/8s1g0vilF
-var gif_loadImg1, gif_loadImg2, gif_fireLoad;
+var gif_loadImg1, gif_loadImg2, gif_fireLoad, png_startBLoad, png_backBload;
 
 function preload() {
   // Load GIFs as images to draw on the canvas
@@ -19,6 +19,8 @@ function preload() {
   gif_loadImg2 = loadImage("talking guy.gif");
   png_loadImg3 = loadImage("text rectangle.png");
   gif_fireLoad = loadImage("Fire new-2.gif");
+  png_startBLoad = loadImage("start button.png");
+  png_backBload = loadImage("backbutton.png");
 }
 
 function setup() {
@@ -230,18 +232,23 @@ class Button {
     this.color3 = lColor;
   }
   draw() {
-    push();
-
-    stroke(this.color3);
-    strokeWeight(7);
-    fill(this.color);
-    rect(this.x, this.y, this.width, this.height, 10);
-    noStroke();
-    fill(this.color2);
-    textSize(min(this.height / 1.2, 22));
-    textAlign(CENTER, CENTER);
-    text(this.text, this.x + this.width / 2, this.y + this.height / 2);
-    pop();
+    if (state === "start") {
+      image(png_startBLoad, this.x, this.y, this.width, this.height);
+    } else if (state === "over") {
+      image(png_backBload, this.x, this.y, this.width, this.height); //trying to replace the button wit an image not working
+    } else {
+      push();
+      stroke(this.color3);
+      strokeWeight(7);
+      fill(this.color);
+      rect(this.x, this.y, this.width, this.height, 10);
+      noStroke();
+      fill(this.color2);
+      textSize(min(this.height / 1.2, 22));
+      textAlign(CENTER, CENTER);
+      text(this.text, this.x + this.width / 2, this.y + this.height / 2);
+      pop();
+    }
   }
   hitTest(x, y) {
     return (
@@ -253,16 +260,7 @@ class Button {
   }
 }
 // objects in game start
-let startButton = new Button(
-  180,
-  200,
-  150,
-  50,
-  "Start",
-  "#873200",
-  "#000000",
-  "#000000"
-);
+let startButton = new Button(170, 200, 170, 70);
 let overButton = new Button(
   330,
   50,
@@ -450,7 +448,7 @@ function winScreen() {
   fill(200);
   noStroke();
   rect(250, 150, 300, 300);
-  image(gif_loadImg2,50,20,190,190);
+  image(gif_loadImg2, 75, 30, 180, 180);
 
   image(png_loadImg3, 98, 45, 300, 370);
   pop();
