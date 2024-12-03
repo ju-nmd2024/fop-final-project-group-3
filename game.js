@@ -397,11 +397,7 @@ function draw() {
     if (point === 15) {
       state = "win";
       winScreen();
-      overButton.draw();
-      if (mouseIsPressed && overButton.hitTest(mouseX, mouseY)) {
-        //what hapens when the button is pressed
-        state = "start";
-      }
+      
     }
   }
   if (state === "Over") {
