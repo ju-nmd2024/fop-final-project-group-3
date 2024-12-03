@@ -7,6 +7,7 @@ let state = "start";
 let direction = "null";
 let point = 0;
 
+
 let blocksInitialized = false;
 
 //most of the ways images and gifs are added,  https://editor.p5js.org/kjhollen/sketches/S1bVzeF8Z
