@@ -7,13 +7,20 @@ let state = "start";
 let direction = "null";
 let point = 0;
 
-
 let blocksInitialized = false;
 
 //most of the ways images and gifs are added,  https://editor.p5js.org/kjhollen/sketches/S1bVzeF8Z
 //https://editor.p5js.org/FAAH/sketches/8s1g0vilF
 // however we only got it to work when using only "loadImage" and down bellow "image(...)", and not using createimg.
-var gif_loadImg1, gif_loadImg2, gif_fireLoad, png_startBLoad, png_backBload;
+var gif_loadImg1,
+  gif_loadImg2,
+  gif_fireLoad,
+  png_startBLoad,
+  png_backBload,
+  gif_house,
+  png_heart,
+  gif_gameOver,
+  gif_youWin;
 
 function preload() {
   // Load GIFs as images to draw on the canvas
@@ -23,6 +30,10 @@ function preload() {
   gif_fireLoad = loadImage("Fire new-2.gif");
   png_startBLoad = loadImage("start button.png");
   png_backBload = loadImage("backbutton.png");
+  gif_house = loadImage("house on fire.gif");
+  png_heart = loadImage("Heart.png");
+  gif_gameOver = loadImage("Game Over.gif");
+  gif_youWin = loadImage("You win.gif");
 }
 
 function setup() {
@@ -41,8 +52,8 @@ function drawBlocks() {
   // Create blocks using nested for-loops
   for (let row = 0; row < numRows; row++) {
     for (let col = 0; col < numCols; col++) {
-      let x = 135 + col * (brickWidth + 7); // Horizontal 
-      let y = 25 + row * (brickHeight + 3); // Vertical 
+      let x = 135 + col * (brickWidth + 7); // Horizontal
+      let y = 25 + row * (brickHeight + 3); // Vertical
       //fills the Arrey
       blocks.push(new Block(x, y, brickWidth, brickHeight));
     }
@@ -58,8 +69,7 @@ class Life {
   }
 
   draw() {
-    fill(255);
-    rect(this.x, this.y, this.width, this.height);
+    image(png_heart, this.x, this.y, this.width, this.height);
   }
 }
 
@@ -264,8 +274,8 @@ class Button {
 // objects in game start
 let startButton = new Button(170, 200, 170, 70);
 let overButton = new Button(
-  330,
-  50,
+  175,
+  235,
   150,
   50,
   "back to start",
@@ -288,9 +298,9 @@ let winButton = new Button(
 let paddel = new Paddel(paddelX, 286, 60, 10);
 let fireMan = new FireMan(fireManX, fireManY, 50, 50);
 
-let life0 = new Life(20, 20, 20, 20);
-let life1 = new Life(50, 20, 20, 20);
-let life2 = new Life(80, 20, 20, 20);
+let life0 = new Life(2, 5, 35, 35);
+let life1 = new Life(32, 5, 35, 35);
+let life2 = new Life(62, 5, 35, 35);
 
 // Block Arrey
 let blocks = [];
@@ -395,7 +405,7 @@ function draw() {
     }
   }
   if (state === "Over") {
-    background(255);
+    gameOverScreen();
     overButton.draw();
     if (mouseIsPressed && overButton.hitTest(mouseX, mouseY)) {
       //what hapens when the button is pressed
@@ -451,7 +461,21 @@ function winScreen() {
   noStroke();
   rect(250, 150, 300, 300);
   image(gif_loadImg2, 75, 30, 180, 180);
-
   image(png_loadImg3, 98, 45, 300, 370);
   pop();
+  image(gif_youWin, 100, 5, 300, 70);
+}
+
+function gameOverScreen() {
+  push();
+  rectMode(CENTER);
+  background(100);
+  fill("#bfbfbf");
+  noStroke();
+  rect(250, 150, 300, 300);
+  image(gif_house, 100, 40, 300, 300);
+  pop();
+  image(gif_fireLoad, -7, 200, 114, 114);
+  image(gif_fireLoad, 393, 200, 114, 114);
+  image(gif_gameOver, 100, 5, 300, 70);
 }
