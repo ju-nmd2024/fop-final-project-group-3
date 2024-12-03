@@ -24,7 +24,7 @@ var gif_loadImg1,
   gif_flower,
   png_start,
   png_studs;
-
+//
 function preload() {
   // Load GIFs as images to draw on the canvas
   gif_loadImg1 = loadImage("fire man gift.gif");
@@ -39,7 +39,7 @@ function preload() {
   gif_youWin = loadImage("You win.gif");
   gif_flower = loadImage("Flower.gif");
   png_start = loadImage("main screen.png");
-  png_studs = loadImage("Trampoline.png");
+  png_studs = loadImage("studs.png");
 }
 
 function setup() {
@@ -152,8 +152,8 @@ class FireMan {
       this.y - this.height / 4 <= paddle.y + paddle.height / 4
     ) {
       if (
-        this.x >= paddle.x - paddle.width / 2 &&
-        this.x <= paddle.x + paddle.width / 2
+        this.x >= paddle.x - paddle.width - 7 &&
+        this.x <= paddle.x + paddle.width - 7
       ) {
         // Collision found
         return true;
@@ -179,10 +179,10 @@ class Paddel {
 
   update() {
     //Collision1 (bounsing back)
-    if (this.x > 365) {
+    if (this.x > 350) {
       this.moveEdgeL();
     }
-    if (this.x < 135) {
+    if (this.x < 95) {
       this.moveEdgeR();
     }
   }
@@ -302,7 +302,7 @@ let winButton = new Button(
 );
 
 //new objects in State "game"
-let paddel = new Paddel(paddelX, 200, 90, 80);
+let paddel = new Paddel(paddelX, 270, 65, 25);
 let fireMan = new FireMan(fireManX, fireManY, 50, 50);
 
 let life0 = new Life(2, 5, 35, 35);
@@ -404,7 +404,6 @@ function draw() {
     if (point === 15) {
       state = "win";
       winScreen();
-      
     }
   }
   if (state === "Over") {
@@ -423,7 +422,6 @@ function draw() {
     }
   }
 }
-
 
 function mousePressed() {
   if (state === "start" && startButton.hitTest(mouseX, mouseY)) {
