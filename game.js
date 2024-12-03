@@ -442,6 +442,7 @@ function backG() {
   image(gif_fireLoad, -7, 200, 114, 114);
   image(gif_fireLoad, 393, 200, 114, 114);
 }
+
 function winScreen() {
   push();
   rectMode(CENTER);
@@ -449,7 +450,7 @@ function winScreen() {
   fill(200);
   noStroke();
   rect(250, 150, 300, 300);
-  image(gif_loadImg2, 70, 30, 180, 180);
+  image(gif_loadImg2,50,20,190,190);
 
   image(png_loadImg3, 98, 45, 300, 370);
   pop();
