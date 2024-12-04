@@ -459,7 +459,7 @@ function backG() {
 function winScreen() {
   push();
   rectMode(CENTER);
-  background(100);
+  background(135, 193, 255);
   fill(200);
   noStroke();
   rect(250, 150, 300, 300);
