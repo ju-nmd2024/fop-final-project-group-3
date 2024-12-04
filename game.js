@@ -258,7 +258,7 @@ class Button {
     } else {
       push();
       stroke(this.color3);
-      strokeWeight(7);
+      strokeWeight(4);
       fill(this.color);
       rect(this.x, this.y, this.width, this.height, 10);
       noStroke();
@@ -291,14 +291,14 @@ let overButton = new Button(
   "#000000"
 );
 let winButton = new Button(
-  330,
-  50,
-  150,
-  50,
-  "back to start",
-  "#873200",
+  300,
+  260,
+  70,
+  30,
+  "start",
+  "#ffdfdf",
   "#000000",
-  "#000000"
+  "#ff9898"
 );
 
 //new objects in State "game"
@@ -463,13 +463,16 @@ function winScreen() {
   fill(135, 193, 255);
   noStroke();
   rect(250, 150, 300, 300);
+
   pop();
   image(gif_loadImg2, 75, 30, 180, 180);
   image(png_loadImg3, 90, 49, 316, 370);
   image(gif_youWin, 100, 5, 300, 70);
   image(gif_flower, 0, 200, 100, 100);
   image(gif_flower, 400, 200, 100, 100);
-
+  fill(0);
+  textSize(20);
+  text("Thank you for saving me!", 120, 250);
   winButton.draw();
   if (mouseIsPressed && winButton.hitTest(mouseX, mouseY)) {
     //what hapens when the button is pressed
