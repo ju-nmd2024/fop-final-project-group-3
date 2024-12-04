@@ -218,7 +218,7 @@ class Block {
   draw() {
     // draws if it is not hit
     if (!this.hit) {
-      fill(0);
+      fill(205, 60, 50);
       rect(this.x, this.y, this.height, this.width);
     }
   }
