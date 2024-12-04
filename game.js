@@ -460,12 +460,12 @@ function winScreen() {
   push();
   rectMode(CENTER);
   background(135, 193, 255);
-  fill(200);
+  fill(135, 193, 255);
   noStroke();
   rect(250, 150, 300, 300);
   pop();
   image(gif_loadImg2, 75, 30, 180, 180);
-  image(png_loadImg3, 98, 45, 300, 370);
+  image(png_loadImg3, 90, 49, 316, 370);
   image(gif_youWin, 100, 5, 300, 70);
   image(gif_flower, 0, 200, 100, 100);
   image(gif_flower, 400, 200, 100, 100);
