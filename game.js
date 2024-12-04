@@ -258,12 +258,12 @@ class Button {
     } else {
       push();
       stroke(this.color3);
-      strokeWeight(4);
+      strokeWeight(3);
       fill(this.color);
       rect(this.x, this.y, this.width, this.height, 10);
       noStroke();
       fill(this.color2);
-      textSize(min(this.height / 1.2, 22));
+      textSize(min(this.height / 1.3, 22));
       textAlign(CENTER, CENTER);
       text(this.text, this.x + this.width / 2, this.y + this.height / 2);
       pop();
@@ -295,9 +295,9 @@ let winButton = new Button(
   260,
   70,
   30,
-  "start",
+  "Back",
   "#ffdfdf",
-  "#000000",
+  "#ff9898",
   "#ff9898"
 );
 
@@ -463,7 +463,6 @@ function winScreen() {
   fill(135, 193, 255);
   noStroke();
   rect(250, 150, 300, 300);
-
   pop();
   image(gif_loadImg2, 75, 30, 180, 180);
   image(png_loadImg3, 90, 49, 316, 370);
