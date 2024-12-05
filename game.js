@@ -16,7 +16,7 @@ var gif_loadImg1,
   gif_loadImg2,
   gif_fireLoad,
   png_startBLoad,
-  png_backBload,
+  png_backBLoad,
   gif_house,
   png_heart,
   gif_gameOver,
@@ -32,7 +32,7 @@ function preload() {
   png_loadImg3 = loadImage("text rectangle.png");
   gif_fireLoad = loadImage("Fire new-2.gif");
   png_startBLoad = loadImage("start button.png");
-  png_backBload = loadImage("backbutton.png");
+  png_backBLoad = loadImage("backbutton.png");
   gif_house = loadImage("house on fire.gif");
   png_heart = loadImage("Heart.png");
   gif_gameOver = loadImage("Game Over.gif");
@@ -58,7 +58,7 @@ function drawBlocks() {
   // Create blocks using nested for-loops
   for (let row = 0; row < numRows; row++) {
     for (let col = 0; col < numCols; col++) {
-      let x = 135 + col * (brickWidth + 7); // Horizontal
+      let x = 111 + col * (brickWidth + 7); // Horizontal
       let y = 25 + row * (brickHeight + 3); // Vertical
       //fills the Arrey
       blocks.push(new Block(x, y, brickWidth, brickHeight));
@@ -150,8 +150,8 @@ class FireMan {
   //var audio = new Audio('audio_file.mp3'); audio.play();
   hitTest(paddle) {
     if (
-      this.y + this.height / 4 >= paddle.y - paddle.height / 4 &&
-      this.y - this.height / 4 <= paddle.y + paddle.height / 4
+      this.y + this.height / 7 >= paddle.y - paddle.height / 7 &&
+      this.y - this.height / 7 <= paddle.y + paddle.height / 7
     ) {
       if (
         this.x >= paddle.x - paddle.width - 7 &&
@@ -181,10 +181,10 @@ class Paddel {
 
   update() {
     //Collision1 (bounsing back)
-    if (this.x > 350) {
+    if (this.x > 340) {
       this.moveEdgeL();
     }
-    if (this.x < 95) {
+    if (this.x < 90) {
       this.moveEdgeR();
     }
   }
@@ -209,7 +209,7 @@ class Paddel {
 }
 
 class Block {
-  constructor(x, y, height, width) {
+  constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
     this.height = height;
@@ -221,7 +221,7 @@ class Block {
     // draws if it is not hit
     if (!this.hit) {
       fill(205, 60, 50);
-      rect(this.x, this.y, this.height, this.width);
+      rect(this.x, this.y, this.width, this.height);
     }
   }
 
@@ -255,8 +255,6 @@ class Button {
   draw() {
     if (state === "start") {
       image(png_startBLoad, this.x, this.y, this.width, this.height);
-    } else if (state === "over") {
-      image(png_backBload, this.x, this.y, this.width, this.height); //trying to replace the button wit an image not working
     } else {
       push();
       stroke(this.color3);
@@ -339,12 +337,6 @@ function draw() {
     text("Points: " + point, width - 20, 15);
     pop();
 
-    // fix points in right corner
-    // push();
-    // stroke(255);
-    // text("Points :" + point.toFixed(1), 350, 50, 100, 100);
-    // rectMode(CENTER);
-
     //moving fireman
     fireMan.update();
     fireMan.draw();
@@ -359,7 +351,6 @@ function draw() {
 
     //player
     push();
-    rectMode(CENTER);
     paddel.update();
     paddel.draw();
     pop();
@@ -381,9 +372,7 @@ function draw() {
         point = point + 1;
         console.log(point);
       }
-      push();
       block.draw();
-      pop();
     }
 
     //collision detection paddel
