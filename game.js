@@ -151,16 +151,20 @@ class FireMan {
   hitTest(paddle) {
     if (
       this.y + this.height / 7 >= paddle.y - paddle.height / 7 &&
-      this.y - this.height / 7 <= paddle.y + paddle.height / 7
+      this.y - this.height / 7 <= paddle.y + paddle.height / 7 &&
+      this.x >= paddle.x - paddle.width - 7 &&
+      this.x <= paddle.x + paddle.width - 7
     ) {
-      if (
-        this.x >= paddle.x - paddle.width - 7 &&
-        this.x <= paddle.x + paddle.width - 7
-      ) {
-        // Collision found
-        return true;
-      }
+      //chengfeng xia, folowing 5 lines
+      let paddelCenter = paddel.x + paddel.width / 2;
+      let ballCenter = this.x;
+      let distanceFromCenter = ballCenter - paddelCenter;
+      let angel = distanceFromCenter / (paddel.width / 2);
+      this.speedX = angel * 5; //play
+
+      return true;
     }
+
     // No collision found
     return false;
   }
