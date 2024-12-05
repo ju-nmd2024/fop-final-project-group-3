@@ -58,8 +58,8 @@ function drawBlocks() {
   // Create blocks using nested for-loops
   for (let row = 0; row < numRows; row++) {
     for (let col = 0; col < numCols; col++) {
-      let x = 111 + col * (brickWidth + 7); // Horizontal
-      let y = 25 + row * (brickHeight + 3); // Vertical
+      let x = 110 + col * (brickWidth + 8); // Horizontal
+      let y = 15 + row * (brickHeight + 5); // Vertical
       //fills the Arrey
       blocks.push(new Block(x, y, brickWidth, brickHeight));
     }
@@ -96,15 +96,15 @@ class FireMan {
   draw() {
     fill(0);
     //sourse stated above preload
-    // image(
-    //   gif_loadImg1,
-    //   this.x - this.width / 2,
-    //   this.y - this.height / 2,
-    //   this.width,
-    //   this.height
-    // );
-    fill(255, 0, 0);
-    ellipse(this.x, this.y, 6);
+    image(
+      gif_loadImg1,
+      this.x - this.width / 2,
+      this.y - this.height / 2,
+      this.width,
+      this.height
+    );
+    //   fill(255, 0, 0);
+    //   ellipse(this.x, this.y, 6);
   }
 
   hearts() {
@@ -220,6 +220,7 @@ class Block {
   draw() {
     // draws if it is not hit
     if (!this.hit) {
+      strokeWeight(2);
       fill(205, 60, 50);
       rect(this.x, this.y, this.width, this.height);
     }
@@ -260,7 +261,7 @@ class Button {
       stroke(this.color3);
       strokeWeight(3);
       fill(this.color);
-      rect(this.x, this.y, this.width, this.height, 10);
+      rect(this.x, this.y, this.width, this.height, 5);
       noStroke();
       fill(this.color2);
       textSize(min(this.height / 1.3, 22));
@@ -302,8 +303,8 @@ let winButton = new Button(
 );
 
 //new objects in State "game"
-let paddel = new Paddel(paddelX, 270, 65, 25);
-let fireMan = new FireMan(fireManX, fireManY, 50, 50);
+let paddel = new Paddel(paddelX, 270, 65, 20);
+let fireMan = new FireMan(fireManX, fireManY, 40, 40);
 
 let life0 = new Life(2, 5, 35, 35);
 let life1 = new Life(32, 5, 35, 35);
@@ -393,7 +394,6 @@ function draw() {
     }
     if (point === 15) {
       state = "win";
-      winScreen();
     }
   }
   if (state === "Over") {
@@ -405,6 +405,7 @@ function draw() {
     }
   }
   if (state === "win") {
+    winScreen();
     winButton.draw();
     if (mouseIsPressed && winButton.hitTest(mouseX, mouseY)) {
       //what hapens when the button is pressed
@@ -454,14 +455,14 @@ function winScreen() {
   noStroke();
   rect(250, 150, 300, 300);
   pop();
-  image(gif_loadImg2, 75, 30, 180, 180);
-  image(png_loadImg3, 90, 49, 316, 370);
-  image(gif_youWin, 100, 5, 300, 70);
-  image(gif_flower, 0, 200, 100, 100);
-  image(gif_flower, 400, 200, 100, 100);
-  fill(0);
-  textSize(20);
-  text("Thank you for saving me!", 120, 250);
+  image(gif_loadImg2, 160, 58, 160, 160); //character
+  image(png_loadImg3, 90, 49, 316, 370); //text box
+  image(gif_youWin, 150, 15, 200, 60); //win text
+  image(gif_flower, 0, 200, 100, 100); // flower 1
+  image(gif_flower, 400, 200, 100, 100); // flower 2
+  fill("#ff9898");
+  textSize(21);
+  text("Thank you for saving me!", 127, 250);
   winButton.draw();
   if (mouseIsPressed && winButton.hitTest(mouseX, mouseY)) {
     //what hapens when the button is pressed
