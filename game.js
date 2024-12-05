@@ -291,10 +291,10 @@ let overButton = new Button(
   "#000000"
 );
 let winButton = new Button(
-  300,
-  260,
-  70,
-  30,
+  310,
+  265,
+  60,
+  20,
   "Back",
   "#ffdfdf",
   "#ff9898",
