@@ -133,11 +133,11 @@ class FireMan {
     */
     //collision with wals
     if (this.x > 392 || this.x < 108) {
-      this.speedX *= -0.5;
+      this.speedX *= -1;
     }
     // may be removed, death, beagining half
     if (this.y < 8) {
-      this.speedY *= -0.5;
+      this.speedY *= -1;
     }
 
     // // Reverse Y direction when hitting the bottom
@@ -159,7 +159,7 @@ class FireMan {
       let paddelCenter = paddel.x + paddel.width / 2;
       let ballCenter = this.x;
       let distanceFromCenter = ballCenter - paddelCenter;
-      let angel = distanceFromCenter / (paddel.width / 2);
+      let angel = distanceFromCenter / (paddel.width / 1.5);
       this.speedX = angel * 3; //play
 
       return true;
@@ -383,7 +383,7 @@ function draw() {
     //collision detection paddel
     if (fireMan.hitTest(paddel)) {
       // Reverse vertical speed, to make FireMan *boing (sound effect)
-      fireMan.speedY *= -0.5;
+      fireMan.speedY *= -1;
     }
 
     if (keyIsDown(LEFT_ARROW)) {
