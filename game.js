@@ -86,8 +86,8 @@ class FireMan {
     this.width = width;
     this.height = height;
 
-    this.speedX = 1.8;
-    this.speedY = 1.8;
+    this.speedX = 1.5;
+    this.speedY = 1.5;
 
     this.paddel = new Paddel(paddelX, 286);
     this.lifeLost = false;
@@ -113,8 +113,8 @@ class FireMan {
       this.lifeLost = true;
       this.x = 250;
       this.y = 130;
-      this.speedX = 1.8;
-      this.speedY = 1.8;
+      this.speedX = 1.5;
+      this.speedY = 1.5;
     }
   }
 
@@ -133,11 +133,11 @@ class FireMan {
     */
     //collision with wals
     if (this.x > 392 || this.x < 108) {
-      this.speedX *= -1;
+      this.speedX *= -0.5;
     }
     // may be removed, death, beagining half
     if (this.y < 8) {
-      this.speedY *= -1;
+      this.speedY *= -0.5;
     }
 
     // // Reverse Y direction when hitting the bottom
@@ -160,7 +160,7 @@ class FireMan {
       let ballCenter = this.x;
       let distanceFromCenter = ballCenter - paddelCenter;
       let angel = distanceFromCenter / (paddel.width / 2);
-      this.speedX = angel * 5; //play
+      this.speedX = angel * 3; //play
 
       return true;
     }
@@ -383,7 +383,7 @@ function draw() {
     //collision detection paddel
     if (fireMan.hitTest(paddel)) {
       // Reverse vertical speed, to make FireMan *boing (sound effect)
-      fireMan.speedY *= -1;
+      fireMan.speedY *= -0.5;
     }
 
     if (keyIsDown(LEFT_ARROW)) {
@@ -427,8 +427,8 @@ function mousePressed() {
     lives = [life0, life1, life2];
     fireMan.x = 250;
     fireMan.y = 130;
-    fireMan.speedX = 1.8;
-    fireMan.speedY = 1.8;
+    fireMan.speedX = 1.5;
+    fireMan.speedY = 1.5;
     point = 0;
   } else if (state === "win" && winButton.hitTest(mouseX, mouseY)) {
     state = "start";
@@ -436,8 +436,8 @@ function mousePressed() {
     lives = [life0, life1, life2];
     fireMan.x = 250;
     fireMan.y = 130;
-    fireMan.speedX = 1.8;
-    fireMan.speedY = 1.8;
+    fireMan.speedX = 1.5;
+    fireMan.speedY = 1.5;
     point = 0;
   }
 }
