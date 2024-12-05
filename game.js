@@ -44,12 +44,11 @@ function preload() {
 
 function setup() {
   createCanvas(500, 300);
-  // to keep pixlynes
-  noSmooth();
+  noSmooth(); // to keep pixlynes
 }
 
 function drawBlocks() {
-  // Clear the array before filling it with new blocks
+  // creates arrey
   blocks = [];
 
   let numRows = 3;
@@ -60,8 +59,7 @@ function drawBlocks() {
     for (let col = 0; col < numCols; col++) {
       let x = 110 + col * (brickWidth + 8); // Horizontal
       let y = 15 + row * (brickHeight + 5); // Vertical
-      //fills the Arrey
-      blocks.push(new Block(x, y, brickWidth, brickHeight));
+      blocks.push(new Block(x, y, brickWidth, brickHeight)); //fills the Arrey
     }
   }
 }
@@ -75,6 +73,7 @@ class Life {
   }
 
   draw() {
+    //hart image
     image(png_heart, this.x, this.y, this.width, this.height);
   }
 }
@@ -94,7 +93,6 @@ class FireMan {
   }
 
   draw() {
-    fill(0);
     //sourse stated above preload
     image(
       gif_loadImg1,
@@ -103,11 +101,10 @@ class FireMan {
       this.width,
       this.height
     );
-    //   fill(255, 0, 0);
-    //   ellipse(this.x, this.y, 6);
   }
 
   hearts() {
+    // to make the lives disapear when the player dies
     if (fireMan.y >= 290 && !this.lifeLost) {
       lives.pop();
       this.lifeLost = true;
@@ -119,6 +116,7 @@ class FireMan {
   }
 
   resetHearts() {
+    // to prevent all harts from disapering with one death
     if (this.y < 290 && this.lifeLost) {
       this.lifeLost = false;
     }
@@ -139,15 +137,9 @@ class FireMan {
     if (this.y < 8) {
       this.speedY *= -1;
     }
-
-    // // Reverse Y direction when hitting the bottom
-    // if (this.y > height - this.height / 2) {
-    //   this.speedY *= -1;
-    // }
   }
 
   //collision with paddel
-  //var audio = new Audio('audio_file.mp3'); audio.play();
   hitTest(paddle) {
     if (
       this.y + this.height / 7 >= paddle.y - paddle.height / 7 &&
@@ -161,7 +153,7 @@ class FireMan {
       let distanceFromCenter = ballCenter - paddelCenter;
       let angel = distanceFromCenter / (paddel.width / 1.5);
       this.speedX = angel * 3; //play
-
+      //collision found
       return true;
     }
 
@@ -193,7 +185,7 @@ class Paddel {
     }
   }
 
-  // movement paddel
+  // movement of paddel
   moveRight() {
     this.x += 6;
   }
@@ -203,7 +195,7 @@ class Paddel {
   moveNull() {
     this.x += 0;
   }
-  // collision(2) variable (bounsing back)
+  // collision(2) variable (bounsing back) left wall,right wall
   moveEdgeL() {
     this.x += -6;
   }
@@ -237,8 +229,10 @@ class Block {
       fireMan.y >= this.y &&
       fireMan.y <= this.y + this.height
     ) {
+      // collision detected
       return true;
     }
+    // no collision
     return false;
   }
 }
@@ -319,9 +313,9 @@ let blocks = [];
 //Lives Arrey
 lives = [life0, life1, life2];
 
-//
 function draw() {
   if (state === "start") {
+    //startscreen
     image(png_start, 0, 0, 500, 300);
     startButton.draw();
   }
@@ -330,6 +324,7 @@ function draw() {
       drawBlocks();
       blocksInitialized = true;
     }
+    //background(ratios)
     push();
     rectMode(CENTER);
     backG();
@@ -353,7 +348,6 @@ function draw() {
     if (lives.length === 0) {
       state = "Over";
     }
-
     //player
     push();
     paddel.update();
@@ -372,7 +366,7 @@ function draw() {
     for (let block of blocks) {
       //collision for blocks
       if (!block.hit && block.hitTest(fireMan)) {
-        fireMan.speedY *= -1; ///det har något med denna att göra
+        fireMan.speedY *= -1;
         block.hit = true;
         point = point + 1;
         console.log(point);
@@ -382,10 +376,10 @@ function draw() {
 
     //collision detection paddel
     if (fireMan.hitTest(paddel)) {
-      // Reverse vertical speed, to make FireMan *boing (sound effect)
+      // Reverse vertical speed
       fireMan.speedY *= -1;
     }
-
+    // movement of paddel key-logic
     if (keyIsDown(LEFT_ARROW)) {
       paddel.moveLeft();
     } else if (keyIsDown(RIGHT_ARROW)) {
@@ -404,17 +398,13 @@ function draw() {
     gameOverScreen();
     overButton.draw();
     if (mouseIsPressed && overButton.hitTest(mouseX, mouseY)) {
-      //what hapens when the button is pressed
       state = "start";
     }
   }
   if (state === "win") {
     winScreen();
     winButton.draw();
-    if (mouseIsPressed && winButton.hitTest(mouseX, mouseY)) {
-      //what hapens when the button is pressed
-      state = "start";
-    }
+   
   }
 }
 
@@ -423,6 +413,7 @@ function mousePressed() {
     state = "game";
   } else if (state === "Over" && overButton.hitTest(mouseX, mouseY)) {
     state = "start";
+    //resets everything in state, "game"
     blocksInitialized = false;
     lives = [life0, life1, life2];
     fireMan.x = 250;
@@ -432,6 +423,7 @@ function mousePressed() {
     point = 0;
   } else if (state === "win" && winButton.hitTest(mouseX, mouseY)) {
     state = "start";
+    //resets everything in state, "game"
     blocksInitialized = false;
     lives = [life0, life1, life2];
     fireMan.x = 250;
@@ -467,9 +459,9 @@ function winScreen() {
   fill("#ff9898");
   textSize(21);
   text("Thank you for saving me!", 127, 250);
+  //button :))
   winButton.draw();
   if (mouseIsPressed && winButton.hitTest(mouseX, mouseY)) {
-    //what hapens when the button is pressed
     state = "start";
   }
 }
