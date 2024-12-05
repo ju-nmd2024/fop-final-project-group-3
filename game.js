@@ -221,7 +221,7 @@ class Block {
     // draws if it is not hit
     if (!this.hit) {
       strokeWeight(2);
-      fill(205, 60, 50);
+      fill(220, 50, 50);
       rect(this.x, this.y, this.width, this.height);
     }
   }
