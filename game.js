@@ -96,13 +96,15 @@ class FireMan {
   draw() {
     fill(0);
     //sourse stated above preload
-    image(
-      gif_loadImg1,
-      this.x - this.width / 2,
-      this.y - this.height / 2,
-      this.width,
-      this.height
-    );
+    // image(
+    //   gif_loadImg1,
+    //   this.x - this.width / 2,
+    //   this.y - this.height / 2,
+    //   this.width,
+    //   this.height
+    // );
+    fill(255, 0, 0);
+    ellipse(this.x, this.y, 6);
   }
 
   hearts() {
@@ -126,7 +128,7 @@ class FireMan {
     this.y += this.speedY;
     this.x += this.speedX;
 
-    /* line 25-30 with guidance from MindForCode, "How to create a bouncing ball in p5.js" 
+    /* with guidance from MindForCode, "How to create a bouncing ball in p5.js" 
     https://www.youtube.com/watch?v=eHZXvR6NDLo 
     */
     //collision with wals
@@ -344,8 +346,8 @@ function draw() {
     // rectMode(CENTER);
 
     //moving fireman
-    fireMan.draw();
     fireMan.update();
+    fireMan.draw();
     fireMan.hearts();
     fireMan.resetHearts();
 
@@ -358,8 +360,8 @@ function draw() {
     //player
     push();
     rectMode(CENTER);
-    paddel.draw();
     paddel.update();
+    paddel.draw();
     pop();
 
     //Lives loop
@@ -372,10 +374,6 @@ function draw() {
 
     //draw blocks loop
     for (let block of blocks) {
-      push();
-      rectMode(CENTER);
-      block.draw();
-      pop();
       //collision for blocks
       if (!block.hit && block.hitTest(fireMan)) {
         fireMan.speedY *= -1; ///det har något med denna att göra
@@ -383,6 +381,9 @@ function draw() {
         point = point + 1;
         console.log(point);
       }
+      push();
+      block.draw();
+      pop();
     }
 
     //collision detection paddel
